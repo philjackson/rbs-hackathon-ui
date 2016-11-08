@@ -1,4 +1,4 @@
-import { observable } from 'mobx'
+import { observable, computed } from 'mobx'
 import { finance, commerce, company, random, date } from 'faker'
 import moment from 'moment'
 import { range, partial } from 'lodash'
@@ -11,28 +11,49 @@ class TransanctionsStore {
   @observable
   future = []
 
-  lastTick
+  @computed
+  get yesterday() {
+
+  }
+
+  @computed
+  get next24h() {
+    const from = new Date()
+        , to = moment().add(24, 'hours').toDate()
+    return this.future.filter(withinRange(from, to))
+  }
+
+  @computed
+  get last24h() {
+    const from = moment().subtract(24, 'hours').toDate()
+        , to = new Date()
+    return this.past.filter(withinRange(from, to))
+  }
 
   constructor() {
     const now = new Date()
-        , pastLimit = moment().subtract(2, 'months').toDate()
-        , futureLimit = moment().add(2, 'months').toDate()
+        , pastLimit = moment().subtract(2, 'weeks').toDate()
+        , futureLimit = moment().add(2, 'weeks').toDate()
 
-    this.past = range(0, 50)
+    this.past = range(0, 200)
       .map(_.partial(pastTransaction, pastLimit, now))
       .sort(byDate)
 
-    this.future = range(0, 50)
+    this.future = range(0, 200)
       .map(_.partial(futureTransaction, now, futureLimit))
       .sort(byDate)
-
-    this.lastTick = now
   }
 }
 
 function byDate(a, b) {
-  return a < b
+  if (a.transactionDateTime < b.transactionDateTime) return -1
+  if (a.transactionDateTime > b.transactionDateTime) return 1
+  return 0
 }
+
+const withinRange = (from, to) => ({ transactionDateTime }) =>
+  transactionDateTime >= from && transactionDateTime < to
+
 // [
 //     {
 //         "accountId": "57e3b951a746a0f62525f820",
