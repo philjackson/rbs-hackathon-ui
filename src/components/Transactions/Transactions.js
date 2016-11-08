@@ -13,6 +13,6 @@ export default class Transactions extends React.Component {
 
 function toTransaction(transaction) {
   return <li key={ `t-${ transaction.transactionDateTime.getTime() }`} >
-    { transaction.transactionDateTime.toString() }
+    { transaction.transactionDescription }
   </li>
 }
