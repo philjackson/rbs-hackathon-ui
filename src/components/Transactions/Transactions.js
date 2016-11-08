@@ -6,13 +6,15 @@ export default class Transactions extends React.Component {
   render () {
     const { past, future } = this.props.store
     return <div style={{ padding: 10 }}>
-      <h2>Yesterday</h2>
-      <ul style={{ height: 200, overflow: 'scroll', marginBottom: 10 }}>
+      <h2 style={{ marginBottom: 5 }}>Yesterday</h2>
+      <ul
+        style={{ height: 200, overflow: 'scroll', marginBottom: 10 }}>
         { past.map(toTransaction) }
       </ul>
 
-      <h2>Tomorrow</h2>
-      <ul style={{ height: 200, overflow: 'scroll' }}>
+      <h2 style={{ marginBottom: 5 }}>Tomorrow</h2>
+      <ul
+        style={{ fontSize: '8px', height: 200, overflow: 'scroll' }}>
         { future.map(toTransaction) }
       </ul>
     </div>
@@ -21,12 +23,11 @@ export default class Transactions extends React.Component {
 }
 
 function toTransaction(transaction) {
-  return <li key={ `t-${ transaction.id }`} >
+  return <li
+    key={ `t-${ transaction.id }`}
+    style={{ fontSize: '8px', borderBottom: '1px solid #cccccc' }}
+    >
     <p>{ transaction.transactionDescription }</p>
-    <p>{ transaction.transactionAmount } </p>
-    <p>{ transaction.accountBalance }</p>
-    <p>{ transaction.category }</p>
-    <p>{ transaction.transactionType }</p>
-    <hr />
+    <p>{ transaction.transactionDateTime.toString() }</p>
   </li>
 }

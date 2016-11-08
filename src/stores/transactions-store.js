@@ -1,6 +1,7 @@
 import { observable } from 'mobx'
-import { finance, commerce, company, random } from 'faker'
-import _ from 'lodash'
+import { finance, commerce, company, random, date } from 'faker'
+import moment from 'moment'
+import { range, partial } from 'lodash'
 
 class TransanctionsStore {
 
@@ -10,12 +11,28 @@ class TransanctionsStore {
   @observable
   future = []
 
+  lastTick
+
   constructor() {
-    this.past = _.range(0, 5).map(pastTransaction)
-    this.future = _.range(0, 5).map(futureTransaction)
+    const now = new Date()
+        , pastLimit = moment().subtract(2, 'months').toDate()
+        , futureLimit = moment().add(2, 'months').toDate()
+
+    this.past = range(0, 50)
+      .map(_.partial(pastTransaction, pastLimit, now))
+      .sort(byDate)
+
+    this.future = range(0, 50)
+      .map(_.partial(futureTransaction, now, futureLimit))
+      .sort(byDate)
+
+    this.lastTick = now
   }
 }
 
+function byDate(a, b) {
+  return a < b
+}
 // [
 //     {
 //         "accountId": "57e3b951a746a0f62525f820",
@@ -29,9 +46,9 @@ class TransanctionsStore {
 //         "unfamiliar" : "false"
 //     },
 // ]
-function pastTransaction() {
+function pastTransaction(from, to) {
   const unfamiliar = Math.random() < 0.7
-  return Object.assign(transaction(), { unfamiliar })
+  return Object.assign(transaction(from, to), { unfamiliar })
 }
 
 // [
@@ -47,15 +64,15 @@ function pastTransaction() {
 //         "confidence": 0.8
 //     },
 // ]
-function futureTransaction() {
+function futureTransaction(from, to) {
   const confidence = Math.random()
-  return Object.assign(transaction(), { confidence })
+  return Object.assign(transaction(from, to), { confidence })
 }
 
-function transaction() {
+function transaction(from, to) {
   return {
     accountId:  "57e3b951a746a0f62525f820",
-    transactionDateTime: new Date(),
+    transactionDateTime: date.between(from, to),
     transactionAmount: finance.amount(),
     accountBalance: finance.amount(),
     transactionType: _.sample(['D/D', 'S/O', 'C/L']),
