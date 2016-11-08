@@ -43,16 +43,11 @@ class Header extends React.Component {
             <span />
           </span>
           <div className='nav-left nav-menu'>
-            <Link className='nav-item' to='/accounts' activeClassName='is-active'>
-              My transactions
+            <Link className='nav-item' to='/' activeClassName='is-active' activeOnlyWhenExact >
+              Dashboard
             </Link>
-            <Link className='nav-item is-hidden-tablet' to='/help' activeClassName='is-active'>
-              Help & Support
-            </Link>
-          </div>
-          <div className='nav-right nav-menu'>
-            <Link className='nav-item' to='/help' activeClassName='is-active'>
-              Help & Support
+            <Link className='nav-item' to='/transactions' activeClassName='is-active'>
+              Transactions
             </Link>
           </div>
         </div>

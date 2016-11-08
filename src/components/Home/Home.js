@@ -10,7 +10,6 @@ class Home extends React.Component {
       <div className="box">
         <BalanceWidget store={store} />
       </div>
-
     </div>
   }
 }

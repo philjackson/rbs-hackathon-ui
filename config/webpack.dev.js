@@ -104,6 +104,7 @@ module.exports = {
       utils: path.join(__INPUT__, 'utils'),
       routes: path.join(__INPUT__, 'routes'),
       components: path.join(__INPUT__, 'components'),
+      stores: path.join(__INPUT__, 'stores')
     },
     extensions: ['', '.js', '.jsx', '.scss']
   }
