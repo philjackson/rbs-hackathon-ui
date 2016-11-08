@@ -1,7 +1,7 @@
 import { observable, computed } from 'mobx'
 import { finance, commerce, company, random, date } from 'faker'
 import moment from 'moment'
-import { range, partial } from 'lodash'
+import _ from 'lodash'
 
 class TransanctionsStore {
 
@@ -10,11 +10,6 @@ class TransanctionsStore {
 
   @observable
   future = []
-
-  @computed
-  get yesterday() {
-
-  }
 
   @computed
   get next24h() {
@@ -28,6 +23,12 @@ class TransanctionsStore {
     const from = moment().subtract(24, 'hours').toDate()
         , to = new Date()
     return this.past.filter(withinRange(from, to))
+  }
+
+  @computed
+  get accountBalance() {
+    if (!this.past.length) return 0
+    return _.last(this.past).accountBalance
   }
 
   constructor() {
