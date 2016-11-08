@@ -4,13 +4,24 @@ import { finance, commerce, company } from 'faker'
 class TransanctionsStore {
 
   @observable
-  transactions = []
+  past = []
+
+  @observable
+  future = []
 
   constructor() {
     setInterval(() => {
-      this.transactions.unshift(transaction())
-    }, 1000)
+      this.past.unshift(pastTransaction())
+    }, 4000)
   }
+}
+
+function pastTransaction() {
+  const unfamiliar = Math.random() < 0.7
+  return Object.assign(transaction(), { unfamiliar })
+}
+
+function futureTransaction() {
 }
 
 function transaction() {
