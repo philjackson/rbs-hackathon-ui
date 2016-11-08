@@ -1,12 +1,18 @@
 import React from 'react'
+import BalanceWidget from './BalanceWidget'
+import BalanceStore from '../../stores/balance'
 
-export default class Home extends React.Component {
+const store = new BalanceStore();
+
+class Home extends React.Component {
   render(){
     return <div className="container">
       <div className="box">
-        Hi
+        <BalanceWidget store={store} />
       </div>
 
     </div>
   }
 }
+
+export default Home
