@@ -1,0 +1,30 @@
+@import "variables";
+@import "themes/theme";
+@import "~font-awesome/scss/font-awesome";
+@import "~bulma/bulma";
+@import "~animate.css";
+//730110c0e67fc1bce5450379cabd9627cd5bc8b1
+@import "../components/index";
+
+body, html {
+  /*background: white;*/
+  height: 100%;
+}
+
+
+.container {
+  @include mobile {
+    margin: 0 auto;
+    max-width: $mobile-content-width;
+  }
+}
+
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 500px $primary-invert inset;
+  border-right-color: black;
+}
+
+.input.is-danger:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 500px #F9EAF0 inset;
+  border-right-color: #500;
+}

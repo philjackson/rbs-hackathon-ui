@@ -1,0 +1,54 @@
+// font-awesome
+$fa-font-path:        "//netdna.bootstrapcdn.com/font-awesome/4.6.3/fonts" !default; // for referencing Bootstrap CDN font files directly
+
+$grey:          #6d6e71;
+$grey-light:    #d8d8d8;
+$grey-lighter:  #e5e5e5;
+$grey-lightest: #f5f5f5;
+$grey-darker:   #31373d;
+$grey-dark:     #434b51;
+
+$teal:          #007497;
+$teal-light:    #66acc0;
+$teal-dark:     #005d79;
+
+$blue:          #0A2F64;
+$black:         #242a2d;
+$red:           #f04e68;
+$orange:        #fbb040;
+$turquoise:     $teal;
+
+$link-active: $grey-dark;
+$primary: $teal;
+$weight-title-normal: normal;
+$weight-title-bold: bold;
+
+//$family-primary: "RNHouseSansRegular";
+
+$control: $grey-darker;
+$control-hover: lighten($control, 5%);
+
+$text-strong: $teal;
+
+$text-light: $blue;
+$link: $blue;
+$link-visited: $blue;
+$nav-height:    40px;
+$radius-large: 2px;
+$radius: 1px;
+$radius-small: 0;
+
+$size-1: 36px;
+$size-2: 30px;
+$size-3: 28px;
+$size-4: 24px;
+$size-5: 18px;
+$size-6: 14px;
+$size-7: 12px;
+
+nav.nav {
+  &, > .container {
+    min-height: $nav-height;
+    line-height: 1;
+  }
+}
