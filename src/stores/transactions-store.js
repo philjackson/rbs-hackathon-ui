@@ -55,40 +55,16 @@ function byDate(a, b) {
 const withinRange = (from, to) => ({ transactionDateTime }) =>
   transactionDateTime >= from && transactionDateTime < to
 
-// [
-//     {
-//         "accountId": "57e3b951a746a0f62525f820",
-//         "transactionDateTime": "2015-12-22T20:58:26.512Z",
-//         "transactionAmount": -499.99,
-//         "accountBalance": 13186.43,
-//         "transactionType": "POS",
-//         "transactionDescription": "HARVEY NICHOLS EDINBURGH GB",
-//         "id": "57e3b9545fcd0537745f428f",
-//         "category": "clothing",
-//         "unfamiliar" : "false"
-//     },
-// ]
 function pastTransaction(from, to) {
   const unfamiliar = Math.random() < 0.7
-  return Object.assign(transaction(from, to), { unfamiliar })
+      , type = 'past'
+  return Object.assign(transaction(from, to), { type, unfamiliar })
 }
 
-// [
-//    {
-//         "accountId": "57e3b951a746a0f62525f820",
-//         "transactionDateTime": "2015-12-22T00:00:00.000Z",
-//         "transactionAmount": -400,
-//         "accountBalance": 13186.43,
-//         "transactionType": "D/D",
-//         "transactionDescription": "NATWEST MORTGAGES LIMITED",
-//         "id": "57e3b9545fcd0537745f428f",
-//         "category": "mortgages",
-//         "confidence": 0.8
-//     },
-// ]
 function futureTransaction(from, to) {
   const confidence = Math.random()
-  return Object.assign(transaction(from, to), { confidence })
+      , type = 'future'
+  return Object.assign(transaction(from, to), { type, confidence })
 }
 
 function transaction(from, to) {
@@ -105,4 +81,3 @@ function transaction(from, to) {
 }
 
 export default TransanctionsStore
-
