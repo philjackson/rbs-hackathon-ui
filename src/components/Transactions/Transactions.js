@@ -4,15 +4,30 @@ import { observer } from 'mobx-react'
 @observer
 export default class Transactions extends React.Component {
   render () {
-    const { transactions } = this.props.store
-    return <ul className="transactions container">
-      { transactions.map(toTransaction) }
-    </ul>
+    const { last24h, next24h } = this.props.store
+    return <div style={{ padding: 10 }}>
+      <h2 style={{ marginBottom: 5 }}>Last 24 hours</h2>
+      <ul
+        style={{ height: 200, overflow: 'scroll', marginBottom: 10 }}>
+        { last24h.map(toTransaction) }
+      </ul>
+
+      <h2 style={{ marginBottom: 5 }}>Next 24 hours</h2>
+      <ul
+        style={{ height: 200, overflow: 'scroll' }}>
+        { next24h.map(toTransaction) }
+      </ul>
+    </div>
+
   }
 }
 
 function toTransaction(transaction) {
-  return <li key={ `t-${ transaction.transactionDateTime.getTime() }`} >
-    { transaction.transactionDateTime.toString() }
+  return <li
+    key={ `t-${ transaction.id }`}
+    style={{ fontSize: '10px', borderBottom: '1px solid #cccccc' }}
+    >
+    <p>{ transaction.transactionDescription }</p>
+    <p>{ transaction.transactionDateTime.toString() }</p>
   </li>
 }
