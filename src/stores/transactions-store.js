@@ -3,7 +3,7 @@ import { finance, commerce, company, random, date } from 'faker'
 import moment from 'moment'
 import _ from 'lodash'
 
-class TransanctionsStore {
+export default class TransanctionsStore {
 
   @observable
   past = []
@@ -13,22 +13,32 @@ class TransanctionsStore {
 
   @computed
   get next24h() {
-    const from = new Date()
-        , to = moment().add(24, 'hours').toDate()
+    if (_.isEmpty(this.future)) return []
+    const now = this.now()
+        , from = now
+        , to = moment(now).add(24, 'hours').toDate()
     return this.future.filter(withinRange(from, to))
   }
 
   @computed
   get last24h() {
-    const from = moment().subtract(24, 'hours').toDate()
-        , to = new Date()
+    if (_.isEmpty(this.past)) return []
+    const now = this.now()
+        , from = moment(now).subtract(24, 'hours').toDate()
+        , to = now
     return this.past.filter(withinRange(from, to))
   }
 
   @computed
   get accountBalance() {
-    if (!this.past.length) return 0
+    if (_.isEmpty(this.past)) return 0
     return _.last(this.past).accountBalance
+  }
+
+  now() {
+    if (_.isEmpty(this.past))
+      throw new Error('Can\'t compute "now" from an empty past')
+    return (_.last(this.past)).transactionDateTime
   }
 
   constructor() {
@@ -36,11 +46,11 @@ class TransanctionsStore {
         , pastLimit = moment().subtract(2, 'weeks').toDate()
         , futureLimit = moment().add(2, 'weeks').toDate()
 
-    this.past = range(0, 200)
+    this.past = _.range(0, 200)
       .map(_.partial(pastTransaction, pastLimit, now))
       .sort(byDate)
 
-    this.future = range(0, 200)
+    this.future = _.range(0, 200)
       .map(_.partial(futureTransaction, now, futureLimit))
       .sort(byDate)
   }
@@ -56,7 +66,7 @@ const withinRange = (from, to) => ({ transactionDateTime }) =>
   transactionDateTime >= from && transactionDateTime < to
 
 function pastTransaction(from, to) {
-  const unfamiliar = Math.random() < 0.7
+  const unfamiliar = Math.random() < 0.8
       , type = 'past'
   return Object.assign(transaction(from, to), { type, unfamiliar })
 }
@@ -79,5 +89,3 @@ function transaction(from, to) {
     id: random.uuid()
   }
 }
-
-export default TransanctionsStore

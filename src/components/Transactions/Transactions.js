@@ -24,10 +24,12 @@ export default class Transactions extends React.Component {
 
 function toTransaction(transaction) {
   return <li
-    key={ `t-${ transaction.id }`}
+    key={ `t-${ transaction.id }` }
     style={{ fontSize: '10px', borderBottom: '1px solid #cccccc' }}
     >
-    <p>{ transaction.transactionDescription }</p>
-    <p>{ transaction.transactionDateTime.toString() }</p>
+      { Object.keys(transaction).map( toTransactionField(transaction) )}
   </li>
 }
+
+const toTransactionField = transaction => field =>
+  <p key={ `t-${ transaction.id }-${ field }`} >{ `${ field }: ${ transaction[field] }` }</p>
