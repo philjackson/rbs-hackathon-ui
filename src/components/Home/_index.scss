@@ -1,5 +1,5 @@
 .home-container {
-  padding: 20px;
+  padding: 0;
 }
 
 .figures td {
@@ -12,4 +12,10 @@ h2 {
   font-family: 'Oswald', sans-serif;
   padding: 10px;
   background: #3AB162;
+  color: white;
+}
+
+.title {
+  padding-left: 20px;
+  padding-top: 20px;
 }
