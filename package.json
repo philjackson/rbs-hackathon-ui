@@ -12,7 +12,8 @@
     "build": "npm run clean && cross-env NODE_ENV=production webpack --progress --debug",
     "lint": "eslint . --ext .js --ext .jsx",
     "lint:fix": "eslint --fix . --ext .js --ext .jsx",
-    "test": "npm run lint"
+    "test": "npm run lint",
+    "start": "echo 'already built, nothing else to do'"
   },
   "devDependencies": {
     "babel-core": "^6.17.0",
