@@ -90,7 +90,7 @@ function toTransaction(t){
         {moment(t.transactionDateTime).format('DD/MM/YYYY')}
       </div>
       <div className="is-hidden-tablet">
-        {moment(t.transactionDateTime).format('DD/MM')}
+        {moment(t.transactionDateTime).format('DD/MMM')}
       </div>
     </td>
     <td className="has-text-right transaction transaction-amount">

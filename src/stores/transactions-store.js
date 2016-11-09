@@ -51,13 +51,13 @@ export default class TransanctionsStore {
   @computed
   get lastMonthBalance() {
     if (_.isEmpty(this.lastMonth)) return 0
-    return _.last(this.lastMonth).accountBalance
+    return _.first(this.lastMonth).accountBalance
   }
 
   @computed
   get nextMonthBalance() {
     if (_.isEmpty(this.nextMonth)) return 0
-    return _.last(this.nextMonth).accountBalance
+    return _.first(this.nextMonth).accountBalance
   }
 
   @computed
@@ -99,12 +99,12 @@ export default class TransanctionsStore {
   @computed
   get accountBalance() {
     if (_.isEmpty(this.past)) return 0
-    return _.last(this.past).accountBalance
+    return _.first(this.past).accountBalance
   }
 
   now() {
     if (_.isEmpty(this.past)) return new Date()
-    return (_.last(this.past)).transactionDateTime
+    return (_.first(this.past)).transactionDateTime
   }
 
   constructor() {
@@ -143,8 +143,8 @@ function synthesizeFutureBalance(acc, t) {
 }
 
 function byDate(a, b) {
-  if (a.transactionDateTime < b.transactionDateTime) return -1
-  if (a.transactionDateTime > b.transactionDateTime) return 1
+  if (a.transactionDateTime < b.transactionDateTime) return 1
+  if (a.transactionDateTime > b.transactionDateTime) return -1
   return 0
 }
 
