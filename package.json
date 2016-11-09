@@ -7,13 +7,12 @@
   "author": "DES",
   "license": "n/a",
   "scripts": {
-    "start": "cross-env NODE_ENV=dev webpack-dev-server --hot --inline --debug --compress --watch --progress",
+    "dev": "cross-env NODE_ENV=dev webpack-dev-server --hot --inline --debug --compress --watch --progress",
     "clean": "rimraf dist",
-    "build": "npm run clean && cross-env NODE_ENV=production webpack --progress --debug",
+    "start": "npm run clean && cross-env NODE_ENV=production webpack --progress --debug",
     "lint": "eslint . --ext .js --ext .jsx",
     "lint:fix": "eslint --fix . --ext .js --ext .jsx",
-    "test": "npm run lint",
-    "postinstall": "npm run build"
+    "test": "npm run lint"
   },
   "devDependencies": {
     "babel-core": "^6.17.0",
@@ -71,5 +70,8 @@
     "react-router": "^4.0.0-alpha.4",
     "rumble-charts": "^1.0.14",
     "superagent": "^2.3.0"
+  },
+  "engines": {
+    "node" : "6.6.0"
   }
 }
