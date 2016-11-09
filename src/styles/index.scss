@@ -39,9 +39,18 @@ input:-webkit-autofill {
 }
 
 .balance-label {
-  color: #009FE3;
+  font-family: 'Oswald', sans-serif;
+  font-size: large;
 }
 
-.spent-label {
+.credit-label {
   color: #FF8300;
+  font-family: 'Oswald', sans-serif;
+  font-size: large;
+}
+
+.debit-label {
+  color: #009FE3;
+  font-family: 'Oswald', sans-serif;
+  font-size: large;
 }
