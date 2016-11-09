@@ -51,13 +51,13 @@ export default class TransanctionsStore {
   @computed
   get lastMonthBalance() {
     if (_.isEmpty(this.lastMonth)) return 0
-    return _.last(this.lastMonth).accountBalance
+    return _.first(this.lastMonth).accountBalance
   }
 
   @computed
   get nextMonthBalance() {
     if (_.isEmpty(this.nextMonth)) return 0
-    return _.last(this.nextMonth).accountBalance
+    return _.first(this.nextMonth).accountBalance
   }
 
   @computed
@@ -99,37 +99,55 @@ export default class TransanctionsStore {
   @computed
   get accountBalance() {
     if (_.isEmpty(this.past)) return 0
-    return _.last(this.past).accountBalance
+    return _.first(this.past).accountBalance
   }
 
   now() {
-    if (_.isEmpty(this.past))
-      throw new Error('Can\'t compute "now" from an empty past')
-    return (_.last(this.past)).transactionDateTime
+    if (_.isEmpty(this.past)) return new Date()
+    return (_.first(this.past)).transactionDateTime
   }
 
   constructor() {
-    const now = new Date()
-        , pastLimit = moment().subtract(2, 'weeks').toDate()
-        , futureLimit = moment().add(2, 'weeks').toDate()
 
-    // request
-    //   .get('http://desdesperados.azurewebsites.net/transactions/past')
-    //   .end((err, res) => console.log(res.body))
+    Promise.all(
+      [ request.get('http://desdesperados.azurewebsites.net/transactions/past')
+      , request.get('http://desdesperados.azurewebsites.net/transactions/future')
+      ]
+      )
+      .then(([ past, future ]) => {
 
-    this.past = _.range(0, 200)
-      .map(_.partial(pastTransaction, pastLimit, now))
-      .sort(byDate)
+        this.past = past.body
+          .map(cleanTransactions)
+          .sort(byDate)
 
-    this.future = _.range(0, 200)
-      .map(_.partial(futureTransaction, now, futureLimit))
-      .sort(byDate)
+        this.future = future.body
+          .map(cleanTransactions)
+          .sort(byDate)
+          .reverse()
+          .reduce(synthesizeFutureBalance, {
+            accountBalance: this.accountBalance
+          , transactions: []
+          })
+          .transactions
+          .reverse()
+
+      })
+      .catch(e => {
+        console.log('something went wrong')
+      })
   }
 }
 
+function synthesizeFutureBalance(acc, t) {
+  t.accountBalance = acc.accountBalance + t.transactionAmount
+  acc.transactions.push(t)
+  acc.accountBalance = t.accountBalance
+  return acc
+}
+
 function byDate(a, b) {
-  if (a.transactionDateTime < b.transactionDateTime) return -1
-  if (a.transactionDateTime > b.transactionDateTime) return 1
+  if (a.transactionDateTime < b.transactionDateTime) return 1
+  if (a.transactionDateTime > b.transactionDateTime) return -1
   return 0
 }
 
@@ -146,16 +164,9 @@ function futureTransaction(from, to) {
   return Object.assign(transaction(from, to), { confidence })
 }
 
-function transaction(from, to) {
-
-  return {
-    accountId:  "57e3b951a746a0f62525f820",
-    transactionDateTime: date.between(from, to),
-    transactionAmount: finance.amount() * (Math.random() < 0.95 ? -1 : 1),
-    accountBalance: finance.amount(),
-    transactionType: _.sample(['D/D', 'S/O', 'C/L']),
-    transactionDescription: company.catchPhrase(),
-    category: commerce.department(),
-    id: random.uuid(),
-  }
+function cleanTransactions(t) {
+  t.transactionDateTime = new Date(t.transactionDateTime)
+  t.id = t.id || _.uniqueId('generated-id')
+  t.accountBalance = t.accountBalance || 0
+  return t
 }

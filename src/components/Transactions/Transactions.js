@@ -4,16 +4,15 @@ import numeral from 'numeral'
 import moment from 'moment'
 import classNames from 'classnames'
 
-const money = (v) => '£' + numeral(Math.abs(v)).format('0.00')
+const money = (v, abs = false) => '£' + numeral(abs ? Math.abs(v) : v).format('0.00')
 
 @observer
 export default class Transactions extends React.Component {
   render(){
-    const {last24h, next24h, accountBalance} = this.props.store
+    const {lastMonth, nextMonth, accountBalance} = this.props.store
     return <div className="transactions-container">
-
-      <h2 className="main-title">Next 24 hours</h2>
-      <h3 className="subtitle">To be spent: {money(next24h.reduce(toTotal, 0))}</h3>
+      <h2 className="main-title">Next Month</h2>
+      <h3 className="subtitle">To be spent: {money(nextMonth.reduce(toTotal, 0))}</h3>
       <table className="table is-narrow">
         <thead>
         <tr>
@@ -35,12 +34,11 @@ export default class Transactions extends React.Component {
         </tr>
         </thead>
         <tbody>
-        { next24h.map(this.toTransaction, this) }
+        { nextMonth.map(this.toTransaction, this) }
         </tbody>
       </table>
-
-      <h2 className="main-title">Last 24 hours</h2>
-      <h3 className="subtitle">Already spent: {money(last24h.reduce(toTotal, 0))}</h3>
+      <h2 className="main-title">Last Month</h2>
+      <h3 className="subtitle">Already spent: {money(lastMonth.reduce(toTotal, 0))}</h3>
       <table className="table is-narrow">
         <thead>
         <tr>
@@ -62,9 +60,10 @@ export default class Transactions extends React.Component {
         </tr>
         </thead>
         <tbody>
-        { last24h.map(this.toTransaction, this) }
+        { lastMonth.map(this.toTransaction, this) }
         </tbody>
       </table>
+
     </div>
 
   }
@@ -103,11 +102,11 @@ export default class Transactions extends React.Component {
           {moment(t.transactionDateTime).format('DD/MM/YYYY')}
         </div>
         <div className="is-hidden-tablet">
-          {moment(t.transactionDateTime).format('DD/MM')}
+          {moment(t.transactionDateTime).format('DD/MMM')}
         </div>
       </td>
       <td className="has-text-right transaction transaction-amount">
-        {money(t.transactionAmount)}
+        {money(t.transactionAmount, true)}
       </td>
       <td className="has-text-right transaction">
         {money(t.accountBalance)}

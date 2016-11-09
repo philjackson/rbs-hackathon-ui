@@ -3,7 +3,9 @@ import { observer}  from 'mobx-react';
 import UsageChart   from './UsageChart'
 
 function numberWithCommas(x) {
-  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  let n = parseFloat(Math.round(x * 100) / 100).toFixed(2);
+
+  return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
 @observer
