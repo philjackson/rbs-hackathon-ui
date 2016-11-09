@@ -2,6 +2,7 @@ import { observable, computed } from 'mobx'
 import { finance, commerce, company, random, date } from 'faker'
 import moment from 'moment'
 import _ from 'lodash'
+import request from 'superagent'
 
 export default class TransanctionsStore {
 
@@ -50,14 +51,49 @@ export default class TransanctionsStore {
   @computed
   get lastMonthBalance() {
     if (_.isEmpty(this.lastMonth)) return 0
-    // return
-
+    return _.last(this.lastMonth).accountBalance
   }
 
   @computed
   get nextMonthBalance() {
     if (_.isEmpty(this.nextMonth)) return 0
+    return _.last(this.nextMonth).accountBalance
+  }
 
+  @computed
+  get lastMonthCreditBalance() {
+    if (_.isEmpty(this.lastMonth)) return 0
+    return this.lastMonth.reduce((total, { transactionAmount }) => {
+      if (transactionAmount < 0) return total
+      return total + transactionAmount
+    }, 0)
+  }
+
+  @computed
+  get lastMonthDebitBalance() {
+    if (_.isEmpty(this.nextMonth)) return 0
+    return this.lastMonth.reduce((total, { transactionAmount }) => {
+      if (transactionAmount >= 0) return total
+      return total + Math.abs(transactionAmount)
+    }, 0)
+  }
+
+  @computed
+  get nextMonthCreditBalance() {
+    if (_.isEmpty(this.nextMonth)) return 0
+    return this.nextMonth.reduce((total, { transactionAmount }) => {
+      if (transactionAmount < 0) return total
+      return total + transactionAmount
+    }, 0)
+  }
+
+  @computed
+  get nextMonthDebitBalance() {
+    if (_.isEmpty(this.nextMonth)) return 0
+    return this.nextMonth.reduce((total, { transactionAmount }) => {
+      if (transactionAmount >= 0) return total
+      return total + Math.abs(transactionAmount)
+    }, 0)
   }
 
   @computed
@@ -76,6 +112,10 @@ export default class TransanctionsStore {
     const now = new Date()
         , pastLimit = moment().subtract(2, 'weeks').toDate()
         , futureLimit = moment().add(2, 'weeks').toDate()
+
+    // request
+    //   .get('http://desdesperados.azurewebsites.net/transactions/past')
+    //   .end((err, res) => console.log(res.body))
 
     this.past = _.range(0, 200)
       .map(_.partial(pastTransaction, pastLimit, now))

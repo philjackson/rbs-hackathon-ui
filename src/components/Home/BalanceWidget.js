@@ -11,6 +11,23 @@ class BalanceWidget extends React.Component {
 
   render(){
     const { balanceStore } = this.props;
+    const {
+      // transactions
+      lastMonthBalance
+    , nextMonthBalance
+
+      // balances
+    , lastMonth
+    , nextMonth
+
+    // credit vs debit balances
+    , lastMonthCreditBalance
+    , lastMonthDebitBalance
+
+    , nextMonthCreditBalance
+    , nextMonthDebitBalance
+
+    } = this.props.transactionsStore
 
     const series = [{
       name: 'Spent',
@@ -23,6 +40,16 @@ class BalanceWidget extends React.Component {
     }]
 
     return <div>
+
+      <div>Next month balance: { nextMonthBalance }</div>
+      <div>Last month balance: { lastMonthBalance }</div>
+
+      <div>Last month credits balance: { lastMonthCreditBalance }</div>
+      <div>Last month debits balance: { lastMonthDebitBalance }</div>
+
+      <div>Next month credits balance: { nextMonthCreditBalance }</div>
+      <div>Next month debits balance: { nextMonthDebitBalance }</div>
+
       <div className="tabs balances">
         <table>
           <tr>
