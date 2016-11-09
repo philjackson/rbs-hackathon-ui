@@ -10,7 +10,7 @@ class UsageChart extends React.Component {
                   className="chart"
                   minY={0}>
       <Transform method={['stack','rotate']}>
-        <Pies combined={true} innerPadding='3%' innerRadius='70%' />
+        <Pies combined={true} innerPadding='3%' innerRadius='60%' />
       </Transform>
     </Chart>
   }

@@ -51,18 +51,13 @@ class BalanceWidget extends React.Component {
     return (
       <div className="columns">
         <div className="column">
-          <h1 className="subtitle">last 30 days</h1>
+          <h2>last 30 days</h2>
 
-          <table>
+          <table className="figures">
             <tr>
-              <td>balance:</td>
-              <td className="balance-label">£{numberWithCommas(lastMonthBalance)}</td>
-
-              <td>spent:</td>
-              <td className="debit-label">£{numberWithCommas(lastMonthDebitBalance)}</td>
-
-              <td>earned:</td>
-              <td className="credit-label">£{numberWithCommas(lastMonthCreditBalance)}</td>
+              <td>balance:<div className="balance-label">£{numberWithCommas(lastMonthBalance)}</div></td>
+              <td>spent: <div className="debit-label">£{numberWithCommas(lastMonthDebitBalance)}</div></td>
+              <td>earned: <div className="credit-label">£{numberWithCommas(lastMonthCreditBalance)}</div></td>
             </tr>
           </table>
 
@@ -70,18 +65,13 @@ class BalanceWidget extends React.Component {
         </div>
 
         <div className="column">
-          <h1 className="subtitle">next 30 days</h1>
+          <h2>next 30 days</h2>
 
-          <table>
+          <table className="figures">
             <tr>
-              <td>balance:</td>
-              <td className="balance-label">£{numberWithCommas(nextMonthBalance)}</td>
-
-              <td>spent:</td>
-              <td className="debit-label">£{numberWithCommas(nextMonthDebitBalance)}</td>
-
-              <td>earned:</td>
-              <td className="credit-label">£{numberWithCommas(nextMonthCreditBalance)}</td>
+              <td>balance:<div className="balance-label">£{numberWithCommas(nextMonthBalance)}</div></td>
+              <td>spent: <div className="debit-label">£{numberWithCommas(nextMonthDebitBalance)}</div></td>
+              <td>earned: <div className="credit-label">£{numberWithCommas(nextMonthCreditBalance)}</div></td>
             </tr>
           </table>
 
