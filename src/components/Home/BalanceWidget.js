@@ -11,23 +11,6 @@ class BalanceWidget extends React.Component {
 
   render(){
     const { balanceStore } = this.props;
-    const {
-      // transactions
-      lastMonthBalance
-    , nextMonthBalance
-
-      // balances
-    , lastMonth
-    , nextMonth
-
-    // credit vs debit balances
-    , lastMonthCreditBalance
-    , lastMonthDebitBalance
-
-    , nextMonthCreditBalance
-    , nextMonthDebitBalance
-
-    } = this.props.transactionsStore
 
     const series = [{
       name: 'Spent',
@@ -40,30 +23,19 @@ class BalanceWidget extends React.Component {
     }]
 
     return <div>
-
-      <div>Next month balance: { nextMonthBalance }</div>
-      <div>Last month balance: { lastMonthBalance }</div>
-
-      <div>Last month credits balance: { lastMonthCreditBalance }</div>
-      <div>Last month debits balance: { lastMonthDebitBalance }</div>
-
-      <div>Next month credits balance: { nextMonthCreditBalance }</div>
-      <div>Next month debits balance: { nextMonthDebitBalance }</div>
-
       <div className="tabs balances">
-        <table>
-          <tr>
-            <td>
-              <div>remaining: <span className="amount balance-label">£{numberWithCommas(balanceStore.balance)}</span></div>
-            </td>
-            <td>
-              <div>out: <span className="amount spent-label">£{numberWithCommas(balanceStore.spent)}</span></div>
-            </td>
-            <td>
-              <div>in: <span className="amount">£{numberWithCommas(balanceStore.paid)}</span></div>
-            </td>
-          </tr>
-        </table>
+        <ul>
+          <li>
+            <a>remaining: <span className="amount">£{numberWithCommas(balanceStore.balance)}</span></a>
+          </li>
+          <li>
+            <a>out: <span className="amount">£{numberWithCommas(balanceStore.spent)}</span></a>
+          </li>
+          <li>
+            <a>in: <span className="amount">£{numberWithCommas(balanceStore.paid)}</span></a>
+          </li>
+
+        </ul>
       </div>
       <UsageChart series={series} />
     </div>

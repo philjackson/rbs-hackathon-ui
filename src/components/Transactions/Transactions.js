@@ -10,7 +10,7 @@ const money = (v) => '£' + numeral(Math.abs(v)).format('0.00')
 export default class Transactions extends React.Component {
   render () {
     const { last24h, next24h, accountBalance } = this.props.store
-    return <div className="">
+    return <div className="transactions-container">
       <div className="box">
         <h2 className="title">Next 24 hours</h2>
         <h3 className="subtitle">To be spent: {money(next24h.reduce(toTotal, 0))}</h3>
@@ -34,7 +34,9 @@ export default class Transactions extends React.Component {
               </th>
             </tr>
           </thead>
-          { next24h.map(toTransaction) }
+          <tbody>
+            { next24h.map(toTransaction) }
+          </tbody>
         </table>
       </div>
       <div className="box">
@@ -61,7 +63,9 @@ export default class Transactions extends React.Component {
             </th>
           </tr>
           </thead>
-          { last24h.map(toTransaction) }
+          <tbody>
+            { last24h.map(toTransaction) }
+          </tbody>
         </table>
 
       </div>
