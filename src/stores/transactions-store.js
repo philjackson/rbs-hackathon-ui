@@ -30,6 +30,37 @@ export default class TransanctionsStore {
   }
 
   @computed
+  get nextMonth() {
+    if (_.isEmpty(this.future)) return []
+    const now = this.now()
+        , from = now
+        , to = moment(now).add(1, 'months').toDate()
+    return this.future.filter(withinRange(from, to))
+  }
+
+  @computed
+  get lastMonth() {
+    if (_.isEmpty(this.past)) return []
+    const now = this.now()
+        , from = moment(now).subtract(1, 'months').toDate()
+        , to = now
+    return this.past.filter(withinRange(from, to))
+  }
+
+  @computed
+  get lastMonthBalance() {
+    if (_.isEmpty(this.lastMonth)) return 0
+    // return
+
+  }
+
+  @computed
+  get nextMonthBalance() {
+    if (_.isEmpty(this.nextMonth)) return 0
+
+  }
+
+  @computed
   get accountBalance() {
     if (_.isEmpty(this.past)) return 0
     return _.last(this.past).accountBalance
