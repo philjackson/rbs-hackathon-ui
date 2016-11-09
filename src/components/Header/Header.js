@@ -31,7 +31,7 @@ class Header extends React.Component {
       <header className='hero is-fixed-mobile'>
         <div className=''>
           <Link className='is-brand' to='/'>
-            DESperados
+            CRUNCH v0.0.1
           </Link>
         </div>
       </header>
