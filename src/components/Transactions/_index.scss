@@ -7,13 +7,29 @@
 
 table.table {
   tr {
-    td.is-icon {
-      color: rgba(255,255,255,0);
+    td.cta {
+      padding: 0;
+
+      button.button {
+        opacity: 0;
+      }
     }
   }
   .unfamiliar {
-    td.is-icon {
-      color: $danger;
+    td.cta {
+      button.button {
+        opacity: 1;
+        width: 100%;
+        height: 30px;
+        border: 0;
+        &:hover {
+          background: $danger;
+          color: $danger-invert;
+        }
+        i.fa {
+          font-size: 10px;
+        }
+      }
     }
   }
 
@@ -25,6 +41,41 @@ table.table {
       white-space: nowrap;
     }
 
+  }
+
+  .transaction {
+    font-family: "Courier New";
+  }
+
+  .transaction-amount {
+    padding-right: 16px;
+    &:after {
+      transform: translate(4px, 4px);
+      @extend .fa;
+      content: $fa-var-chevron-down;
+      position: absolute;
+      color: $warning;
+      font-size: 10px;
+      height: 100%;
+    }
+  }
+
+  tr.debit {
+    .transaction-amount {
+      &:after {
+        content: $fa-var-chevron-down;
+        color: $warning;
+      }
+    }
+  }
+
+  tr.credit {
+    .transaction-amount {
+      &:after {
+        content: $fa-var-chevron-up;
+        color: $success;
+      }
+    }
   }
 
 }

@@ -15,7 +15,7 @@ class TransactionsChart extends React.Component {
                     paddingTop: 10,
                     paddingBottom: 0
                   }}>
-      <Layer width='80%' height='90%' position='top center'>
+      <Layer width='80%' height='80%' position='top center'>
         <Bars colors='category10' // category20, category20b, category20c
               innerPadding='1%'
               groupPadding='0'
@@ -31,8 +31,8 @@ class TransactionsChart extends React.Component {
         <Ticks
           axis='x'
           labelFormat={v => moment(v).format('M/Y')}
-          labelStyle={{textAnchor:'middle',dominantBaseline:'text-before-edge',fill:'lightgray'}}
-          labelAttributes={{y: 3}}
+          labelStyle={{textAnchor:'middle',dominantBaseline:'text-before-edge',fill:'black'}}
+          labelAttributes={{y: 20}}
         />
       </Layer>
     </Chart>

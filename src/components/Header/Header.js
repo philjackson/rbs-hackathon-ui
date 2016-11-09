@@ -29,24 +29,24 @@ class Header extends React.Component {
 
     return <div className='page-header'>
       <header className='hero is-fixed-mobile'>
-        <div className='container'>
+        <div className=''>
           <Link className='is-brand' to='/'>
             DESperados
           </Link>
         </div>
       </header>
       <nav className='nav has-shadow is-boxed is-fixed-mobile'>
-        <div className='container'>
+        <div className=''>
           <span className={menuClass} onClick={::this.toggle}>
             <span />
             <span />
             <span />
           </span>
           <div className='nav-left nav-menu'>
-            <Link className='nav-item' to='/' activeClassName='is-active' activeOnlyWhenExact >
+            <Link className='nav-item is-tab' to='/' activeClassName='is-active' activeOnlyWhenExact >
               Dashboard
             </Link>
-            <Link className='nav-item' to='/transactions' activeClassName='is-active'>
+            <Link className='nav-item is-tab' to='/transactions' activeClassName='is-active'>
               Transactions
             </Link>
           </div>

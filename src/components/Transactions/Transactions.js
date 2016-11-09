@@ -4,13 +4,13 @@ import numeral from 'numeral'
 import moment from 'moment'
 import classNames from 'classnames'
 
-const money = (v) => '£' + numeral(v).format('0.00')
+const money = (v) => '£' + numeral(Math.abs(v)).format('0.00')
 
 @observer
 export default class Transactions extends React.Component {
   render () {
     const { last24h, next24h, accountBalance } = this.props.store
-    return <div className="container">
+    return <div className="">
       <div className="box">
         <h2 className="title">Next 24 hours</h2>
         <h3 className="subtitle">To be spent: {money(next24h.reduce(toTotal, 0))}</h3>
@@ -89,14 +89,14 @@ function toTransaction(t){
         {moment(t.transactionDateTime).format('DD/MM')}
       </div>
     </td>
-    <td className="has-text-right">
+    <td className="has-text-right transaction transaction-amount">
       {money(t.transactionAmount)}
     </td>
-    <td className="has-text-right">
+    <td className="has-text-right transaction">
       {money(t.accountBalance)}
     </td>
-    <td className="is-icon">
-      <i className="fa fa-exclamation-triangle"/>
+    <td className="cta">
+      <button className="button is-small"><i className="fa fa-eye"/></button>
     </td>
   </tr>
 }

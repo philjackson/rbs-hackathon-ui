@@ -5,19 +5,8 @@
       &:before {
         display: none
       }
-      box-shadow: inset 3px 0 0 rgba(0,0,0,.3)
     }
-    &:before {
-      left: 0;
-      right: 0;
-      bottom: -7px;
-      position: absolute;
-      content: $fa-var-caret-up;
-      @extend .fa;
-      font-size: $size-4;
-      color: $grey-lightest;
-      box-sizing: border-box;
-    }
+
   }
 }
 .page-header {
@@ -109,24 +98,9 @@
   }
 }
 
-.login-button {
-  height: 100%;
-  margin-left: 1em;
-  @include mobile {
-    flex: 0 0;
-    right: 0;
-    position: absolute;
-    align-self: flex-end;
-    .nav & .svg-icon {
-      margin-right: 0;
-    }
-  }
-}
-
 @include mobile {
   body {
-    padding-top: 116px;
-    height: auto !important;
+    padding-top: 84px;
   }
   .page-header {
     z-index: 1000;
@@ -135,11 +109,5 @@
     right: 0;
     left: 0;
 
-    .container {
-      width: 100%;
-      max-width: 100%;
-      min-width: 100%;
-      margin: 0;
-    }
   }
 }
