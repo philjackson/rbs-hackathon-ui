@@ -52,6 +52,7 @@ class BalanceWidget extends React.Component {
 
           <UsageChart series={last_series} />
         </div>
+
         <div className="column">
           <h1 className="subtitle">next 30 days</h1>
 

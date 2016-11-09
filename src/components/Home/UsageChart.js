@@ -7,6 +7,7 @@ class UsageChart extends React.Component {
     return <Chart width={this.props.containerWidth}
                   height={150}
                   series={this.props.series}
+                  className="chart"
                   minY={0}>
       <Transform method={['stack','rotate']}>
         <Pies combined={true} innerPadding='3%' innerRadius='70%' />
