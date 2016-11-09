@@ -67,25 +67,24 @@ const withinRange = (from, to) => ({ transactionDateTime }) =>
 
 function pastTransaction(from, to) {
   const unfamiliar = Math.random() < 0.8
-      , type = 'past'
-  return Object.assign(transaction(from, to), { type, unfamiliar })
+  return Object.assign(transaction(from, to), { unfamiliar })
 }
 
 function futureTransaction(from, to) {
   const confidence = Math.random()
-      , type = 'future'
-  return Object.assign(transaction(from, to), { type, confidence })
+  return Object.assign(transaction(from, to), { confidence })
 }
 
 function transaction(from, to) {
+
   return {
     accountId:  "57e3b951a746a0f62525f820",
     transactionDateTime: date.between(from, to),
-    transactionAmount: finance.amount(),
+    transactionAmount: finance.amount() * (Math.random() < 0.95 ? -1 : 1),
     accountBalance: finance.amount(),
     transactionType: _.sample(['D/D', 'S/O', 'C/L']),
     transactionDescription: company.catchPhrase(),
     category: commerce.department(),
-    id: random.uuid()
+    id: random.uuid(),
   }
 }
