@@ -9,11 +9,11 @@ const money = (v) => '£' + numeral(Math.abs(v)).format('0.00')
 @observer
 export default class Transactions extends React.Component {
   render () {
-    const { last24h, next24h, accountBalance } = this.props.store
+    const { lastMonth, nextMonth, accountBalance } = this.props.store
     return <div className="transactions-container">
       <div className="box">
-        <h2 className="title">Next 24 hours</h2>
-        <h3 className="subtitle">To be spent: {money(next24h.reduce(toTotal, 0))}</h3>
+        <h2 className="title">Next Month</h2>
+        <h3 className="subtitle">To be spent: {money(nextMonth.reduce(toTotal, 0))}</h3>
         <table className="table is-narrow">
           <thead>
             <tr>
@@ -35,13 +35,13 @@ export default class Transactions extends React.Component {
             </tr>
           </thead>
           <tbody>
-            { next24h.map(toTransaction) }
+            { nextMonth.map(toTransaction) }
           </tbody>
         </table>
       </div>
       <div className="box">
-        <h2 className="title">Last 24 hours</h2>
-        <h3 className="subtitle">Already spent: {money(last24h.reduce(toTotal, 0))}</h3>
+        <h2 className="title">Last Month</h2>
+        <h3 className="subtitle">Already spent: {money(lastMonth.reduce(toTotal, 0))}</h3>
 
         <table className="table is-narrow">
           <thead>
@@ -64,7 +64,7 @@ export default class Transactions extends React.Component {
           </tr>
           </thead>
           <tbody>
-            { last24h.map(toTransaction) }
+            { lastMonth.map(toTransaction) }
           </tbody>
         </table>
 

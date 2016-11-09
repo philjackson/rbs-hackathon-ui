@@ -103,27 +103,46 @@ export default class TransanctionsStore {
   }
 
   now() {
-    if (_.isEmpty(this.past))
-      throw new Error('Can\'t compute "now" from an empty past')
+    if (_.isEmpty(this.past)) return new Date()
     return (_.last(this.past)).transactionDateTime
   }
 
   constructor() {
-    const now = new Date()
-        , pastLimit = moment().subtract(2, 'weeks').toDate()
-        , futureLimit = moment().add(2, 'weeks').toDate()
 
-    // request
-    //   .get('http://desdesperados.azurewebsites.net/transactions/past')
-    //   .end((err, res) => console.log(res.body))
+    Promise.all(
+      [ request.get('http://desdesperados.azurewebsites.net/transactions/past')
+      , request.get('http://desdesperados.azurewebsites.net/transactions/future')
+      ]
+      )
+      .then(([ past, future ]) => {
 
-    this.past = _.range(0, 200)
-      .map(_.partial(pastTransaction, pastLimit, now))
-      .sort(byDate)
+        this.past = past.body
+          .map(cleanTransactions)
+          .sort(byDate)
 
-    this.future = _.range(0, 200)
-      .map(_.partial(futureTransaction, now, futureLimit))
-      .sort(byDate)
+        this.future = future.body
+          .map(cleanTransactions)
+          .sort(byDate)
+
+        // const now = this.now()
+        //     , pastLimit = moment(now).subtract(2, 'weeks').toDate()
+        //     , futureLimit = moment(now).add(2, 'weeks').toDate()
+
+        // this.future = _.range(0, 200)
+        //   .map(_.partial(futureTransaction, now, futureLimit))
+        //   .sort(byDate)
+      })
+      .catch(e => {
+        console.log('something went wrong')
+      })
+
+    // this.past = _.range(0, 200)
+    //   .map(_.partial(pastTransaction, pastLimit, now))
+    //   .sort(byDate)
+
+    // this.future = _.range(0, 200)
+    //   .map(_.partial(futureTransaction, now, futureLimit))
+    //   .sort(byDate)
   }
 }
 
@@ -146,6 +165,13 @@ function futureTransaction(from, to) {
   return Object.assign(transaction(from, to), { confidence })
 }
 
+function cleanTransactions(t) {
+  t.transactionDateTime = new Date(t.transactionDateTime)
+  t.id = t.id || _.uniqueId('generated-id')
+  t.accountBalance = t.accountBalance || 0
+  return t
+}
+
 function transaction(from, to) {
 
   return {
@@ -159,3 +185,20 @@ function transaction(from, to) {
     id: random.uuid(),
   }
 }
+
+// accountId:"123242453"
+// category:"mortgage payment"
+// confidence:1
+// transactionAmount:-850
+// transactionDateTime:"2016-11-02T00:00:00.000Z"
+// transactionDescription:"Natwest"
+
+// accountBalance:-824.05
+// accountId:"123242453"
+// category:"food-drink"
+// id:"6430fd47-7dfc-44a7-a55f-a7c38159c0c2"
+// transactionAmount:-4.2
+// transactionDateTime:"2016-06-01T19:01:15+01:00"
+// transactionDescription:"Starbucks"
+// type:"POS"
+// unfamiliar:true
