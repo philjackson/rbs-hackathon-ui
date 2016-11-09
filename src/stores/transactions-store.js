@@ -135,7 +135,7 @@ export default class TransanctionsStore {
           .transactions
           .reverse()
 
-        setTimeout(() => this.poll(), 3000)
+        setTimeout(() => this.poll(), 30000)
 
       })
       .catch(e => {
