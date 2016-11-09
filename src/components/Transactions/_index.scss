@@ -11,16 +11,33 @@ table.table {
   .unfamiliar {
     td.cta {
       button.button {
+        transition: .5s all linear;
         opacity: 1;
         width: 100%;
         height: 30px;
         border: 0;
+        background: transparent;
         &:hover {
           background: $danger;
           color: $danger-invert;
         }
         i.fa {
           font-size: 10px;
+        }
+      }
+    }
+  }
+
+  tr.unfamiliar.info {
+    background: lighten($danger, 30%);
+    td:first-child {
+      color: $danger;
+    }
+    td.cta {
+      button.button {
+        &:hover {
+          background: transparent;
+          color: $grey-dark;
         }
       }
     }
