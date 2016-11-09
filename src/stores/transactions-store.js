@@ -108,6 +108,10 @@ export default class TransanctionsStore {
   }
 
   constructor() {
+    this.poll()
+  }
+
+  poll() {
 
     Promise.all(
       [ request.get('http://desdesperados.azurewebsites.net/transactions/past')
@@ -131,10 +135,13 @@ export default class TransanctionsStore {
           .transactions
           .reverse()
 
+        setTimeout(() => this.poll(), 3000)
+
       })
       .catch(e => {
         console.log('something went wrong')
       })
+
   }
 }
 
