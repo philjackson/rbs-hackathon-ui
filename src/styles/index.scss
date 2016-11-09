@@ -4,6 +4,7 @@
 @import "~bulma/bulma";
 @import "~animate.css";
 @import "../components/index";
+@import url('https://fonts.googleapis.com/css?family=Oswald');
 
 body, html {
   /*background: white;*/
@@ -25,4 +26,14 @@ input:-webkit-autofill {
 .input.is-danger:-webkit-autofill {
   -webkit-box-shadow: 0 0 0 500px #F9EAF0 inset;
   border-right-color: #500;
+}
+
+.balances {
+  font-family: 'Oswald', sans-serif;
+}
+
+.amount {
+  font-size: large;
+  padding-left: 10px;
+  font-weight: bold;
 }
