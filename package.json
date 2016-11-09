@@ -8,11 +8,15 @@
   "license": "n/a",
   "scripts": {
     "dev": "cross-env NODE_ENV=dev webpack-dev-server --hot --inline --debug --compress --watch --progress",
-    "clean": "rimraf dist",
-    "build": "npm run clean && cross-env NODE_ENV=production webpack --progress --debug",
+    "clean": "npm run rimraf_ -- dist",
+    "build": "npm run clean && npm run cross-env_ -- NODE_ENV=production npm run webpack_ -- --progress --debug",
     "lint": "eslint . --ext .js --ext .jsx",
     "lint:fix": "eslint --fix . --ext .js --ext .jsx",
-    "test": "npm run lint"
+    "test": "npm run lint",
+
+    "rimraf_": "node_modules/.bin/rimraf",
+    "cross-env_": "node_modules/.bin/cross-env",
+    "webpack_": "node_modules/.bin/webpack"
   },
   "devDependencies": {
     "babel-core": "^6.17.0",
