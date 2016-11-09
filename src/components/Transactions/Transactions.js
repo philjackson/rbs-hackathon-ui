@@ -2,49 +2,108 @@ import React from 'react'
 import { observer } from 'mobx-react'
 import numeral from 'numeral'
 import moment from 'moment'
+import classNames from 'classnames'
+
+const money = (v) => '£' + numeral(v).format('0.00')
 
 @observer
 export default class Transactions extends React.Component {
   render () {
     const { last24h, next24h, accountBalance } = this.props.store
-    return <div style={{ padding: 10 }}>
-      <h2 style={{ marginBottom: 5 }}>Next 24 hours</h2>
-      <p>To be spent: { next24h.reduce(toTotal, 0) }</p>
-      <ul
-        style={{ height: 200, overflow: 'scroll' }}>
-        { next24h.map(toTransaction) }
-      </ul>
+    return <div className="container">
+      <div className="box">
+        <h2 className="title">Next 24 hours</h2>
+        <h3 className="subtitle">To be spent: {money(next24h.reduce(toTotal, 0))}</h3>
+        <table className="table is-narrow">
+          <thead>
+            <tr>
+              <th>
+                Description
+              </th>
+              <th>
+                Date
+              </th>
+              <th className="has-text-right">
+                Amount
+              </th>
+              <th className="has-text-right">
+                Balance
+              </th>
+              <th>
 
-      <h2 style={{ marginBottom: 5 }}>Last 24 hours</h2>
-      <p>Already spent: { last24h.reduce(toTotal, 0) }</p>
-      <ul
-        style={{ height: 200, overflow: 'scroll', marginBottom: 10 }}>
-        { last24h.map(toTransaction) }
-      </ul>
+              </th>
+            </tr>
+          </thead>
+          { next24h.map(toTransaction) }
+        </table>
+      </div>
+      <div className="box">
+        <h2 className="title">Last 24 hours</h2>
+        <h3 className="subtitle">Already spent: {money(last24h.reduce(toTotal, 0))}</h3>
 
+        <table className="table is-narrow">
+          <thead>
+          <tr>
+            <th>
+              Description
+            </th>
+            <th>
+              Date
+            </th>
+            <th className="has-text-right">
+              Amount
+            </th>
+            <th className="has-text-right">
+              Balance
+            </th>
+            <th className="is-icon">
+
+            </th>
+          </tr>
+          </thead>
+          { last24h.map(toTransaction) }
+        </table>
+
+      </div>
     </div>
 
   }
 }
 
-function toTransaction(t) {
-  return <li key={ `t-${ t.id }` } className="container" style={{ paddingBottom: 20 }}>
-      <h3> { t.transactionDescription }</h3>
-      { t.unfamiliar ? unfamiliar() : undefined }
-      <p>{ moment(t.transactionDateTime).format('DD-MM-YYYY')}</p>
-      <p>{ t.transactionAmount }</p>
-      <p>{ t.accountBalance }</p>
-  </li>
+function toTransaction(t){
+  const className = classNames({
+    unfamiliar: t.unfamiliar,
+    debit: t.transactionAmount < 0,
+    credit: t.transactionAmount > 0
+  })
+
+  return <tr key={ `t-${ t.id }` } className={className}>
+    <td className="description" title={t.transactionDescription}>
+      {t.transactionDescription}
+    </td>
+    <td className="date">
+      <div className="is-hidden-mobile">
+        {moment(t.transactionDateTime).format('DD/MM/YYYY')}
+      </div>
+      <div className="is-hidden-tablet">
+        {moment(t.transactionDateTime).format('DD/MM')}
+      </div>
+    </td>
+    <td className="has-text-right">
+      {money(t.transactionAmount)}
+    </td>
+    <td className="has-text-right">
+      {money(t.accountBalance)}
+    </td>
+    <td className="is-icon">
+      <i className="fa fa-exclamation-triangle"/>
+    </td>
+  </tr>
 }
 
 const toTransactionField = t => field =>
   <p key={ `t-${ t.id }-${ field }`} >{ `${ field }: ${ t[field] }` }</p>
 
-function unfamiliar() {
-  return <i className="fa fa-exclamation-triangle unfamiliar"/>
-}
-
 function toTotal(total, t) {
-  return total + t.transactionAmount
+  return Math.abs(total + t.transactionAmount)
 }
-

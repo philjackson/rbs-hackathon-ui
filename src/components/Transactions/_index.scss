@@ -1,0 +1,34 @@
+.transaction-wrapper {
+  box-shadow: 0 1px 1px rgba(0,0,0,.2);
+  border: 1px solid $border;
+  border-bottom: none;
+}
+
+
+table.table {
+  tr {
+    td.is-icon {
+      color: rgba(255,255,255,0);
+    }
+  }
+  .unfamiliar {
+    td.is-icon {
+      color: $danger;
+    }
+  }
+
+  td.description {
+    @include mobile {
+      max-width: 170px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+  }
+
+}
+
+th.has-text-right {
+  text-align: right !important;
+}
