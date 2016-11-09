@@ -123,10 +123,13 @@ export default class TransanctionsStore {
         this.future = future.body
           .map(cleanTransactions)
           .sort(byDate)
+          .reverse()
           .reduce(synthesizeFutureBalance, {
             accountBalance: this.accountBalance
           , transactions: []
-          }).transactions
+          })
+          .transactions
+          .reverse()
 
       })
       .catch(e => {
