@@ -49,9 +49,8 @@ class BalanceWidget extends React.Component {
     }]
 
     return (
-      <div className="columns">
-        <div className="column">
-          <h2>last 30 days</h2>
+      <div>
+          <h2 className="main-title">last 30 days</h2>
 
           <table className="figures">
             <tr>
@@ -62,10 +61,9 @@ class BalanceWidget extends React.Component {
           </table>
 
           <UsageChart series={last_series} />
-        </div>
 
-        <div className="column">
-          <h2>next 30 days</h2>
+        <section>
+          <h2 className="main-title">next 30 days</h2>
 
           <table className="figures">
             <tr>
@@ -76,8 +74,8 @@ class BalanceWidget extends React.Component {
           </table>
 
           <UsageChart series={next_series} />
+        </section>
         </div>
-      </div>
     )
   }
 }

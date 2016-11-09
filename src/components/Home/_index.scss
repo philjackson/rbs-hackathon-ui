@@ -1,21 +1,25 @@
+.main-title {
+  @extend .title;
+  text-align: center;
+  font-family: 'Oswald', sans-serif;
+  background: $success;
+  color: $success-invert;
+  padding: .5em;
+  border-top: 1px solid $grey;
+  border-bottom: 1px solid $grey;
+}
+
 .home-container {
-  padding: 0;
+  padding: 7px 0 0;
+  .title {
+    padding-left: 8px;
+  }
+  section {
+    padding-top: 10px;
+  }
 }
 
 .figures td {
   text-align: center;
 }
 
-h2 {
-  font-size: large;
-  text-align: center;
-  font-family: 'Oswald', sans-serif;
-  padding: 10px;
-  background: #3AB162;
-  color: white;
-}
-
-.title {
-  padding-left: 20px;
-  padding-top: 20px;
-}

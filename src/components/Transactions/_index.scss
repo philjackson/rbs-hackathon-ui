@@ -1,3 +1,10 @@
+.transactions-container {
+  padding: 7px 0 0;
+  h2.title {
+    color: $info-invert
+  }
+}
+
 table.table {
   tr {
     td.cta {
@@ -45,7 +52,7 @@ table.table {
 
   td.description {
     @include mobile {
-      max-width: 170px;
+      max-width: 120px;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
