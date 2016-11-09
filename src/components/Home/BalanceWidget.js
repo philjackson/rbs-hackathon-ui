@@ -24,18 +24,19 @@ class BalanceWidget extends React.Component {
 
     return <div>
       <div className="tabs balances">
-        <ul>
-          <li>
-            <a>remaining: <span className="amount">£{numberWithCommas(balanceStore.balance)}</span></a>
-          </li>
-          <li>
-            <a>out: <span className="amount">£{numberWithCommas(balanceStore.spent)}</span></a>
-          </li>
-          <li>
-            <a>in: <span className="amount">£{numberWithCommas(balanceStore.paid)}</span></a>
-          </li>
-
-        </ul>
+        <table>
+          <tr>
+            <td>
+              <div>remaining: <span className="amount balance-label">£{numberWithCommas(balanceStore.balance)}</span></div>
+            </td>
+            <td>
+              <div>out: <span className="amount spent-label">£{numberWithCommas(balanceStore.spent)}</span></div>
+            </td>
+            <td>
+              <div>in: <span className="amount">£{numberWithCommas(balanceStore.paid)}</span></div>
+            </td>
+          </tr>
+        </table>
       </div>
       <UsageChart series={series} />
     </div>
