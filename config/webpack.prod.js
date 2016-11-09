@@ -2,11 +2,9 @@ const path                = require('path')
 const webpack             = require('webpack')
 const HtmlWebpackPlugin   = require('html-webpack-plugin')
 const pkg                 = require('../package.json')
-const ExtractTextPlugin   = require('extract-text-webpack-plugin');
 
 const __OUTPUT__          = path.join(__dirname, '..', 'dist')
 const __INPUT__           = path.join(__dirname, '..', 'src')
-const __COMPONENT_NAME__  = 'api-app'
 
 module.exports = {
 
@@ -25,7 +23,7 @@ module.exports = {
   output: {
     path: __OUTPUT__,
     publicPath: './',
-    filename: `[name].min.js`
+    filename: `app.min.js`
   },
 
   module: {
@@ -39,10 +37,8 @@ module.exports = {
       }
     }, {
       test: /\.s(c|a)ss$/,
-      loader: ExtractTextPlugin.extract('style', 'css?sourceMap!sass?sourceMap')
-    }, {
-      test:   /\.css$/,
-      loader: ExtractTextPlugin.extract('style-loader', 'css-loader!postcss-loader?sourceMap=inline')
+      // adding source maps breaks relative paths, see https://github.com/webpack/css-loader/issues/232
+      loader: 'style!css!sass'
     }, {
       test: /\.woff(\?.*)?$/,
       loader: 'url-loader?prefix=src/assets/fonts/&name=assets/fonts/[name].[ext]&limit=10000&mimetype=application/font-woff'
@@ -76,7 +72,10 @@ module.exports = {
         NODE_ENV: '"production"'
       }
     }),
-    new ExtractTextPlugin(`${__COMPONENT_NAME__}.css`),
+    new HtmlWebpackPlugin({
+      inject: 'body',
+      title: 'DESperados Crunch'
+    }),
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.UglifyJsPlugin({
@@ -97,7 +96,8 @@ module.exports = {
       assets: path.join(__INPUT__, 'assets'),
       utils: path.join(__INPUT__, 'utils'),
       routes: path.join(__INPUT__, 'routes'),
-      components: path.join(__INPUT__, 'components')
+      components: path.join(__INPUT__, 'components'),
+      stores: path.join(__INPUT__, 'stores')
     },
     extensions: ['', '.js', '.jsx', '.scss']
   }

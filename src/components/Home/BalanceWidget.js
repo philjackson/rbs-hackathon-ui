@@ -1,17 +1,12 @@
-import React from 'react';
-import {observer} from 'mobx-react';
-import UsageChart from './UsageChart'
+import React        from 'react';
+import { observer}  from 'mobx-react';
+import UsageChart   from './UsageChart'
 
 @observer
 class BalanceWidget extends React.Component {
 
-  handleClick(){
-    console.log(arguments)
-  }
-
   render(){
-    const { balanceStore }   = this.props;
-
+    const { balanceStore } = this.props;
 
     const series = [{
       name: 'Spent',
@@ -22,7 +17,7 @@ class BalanceWidget extends React.Component {
       data: [balanceStore.balance]
     }]
 
-    return <div className="animated fadeInDown">
+    return <div>
       <div className="tabs">
         <ul>
           <li>
@@ -37,14 +32,7 @@ class BalanceWidget extends React.Component {
 
         </ul>
       </div>
-
-      <div>
-        <UsageChart
-          series={series}
-          onClick={::this.handleClick}
-        />
-      </div>
-
+      <UsageChart series={series} />
     </div>
   }
 }
