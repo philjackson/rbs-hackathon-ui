@@ -10,7 +10,23 @@ function numberWithCommas(x) {
 class BalanceWidget extends React.Component {
 
   render(){
-    const { balanceStore } = this.props;
+    const {
+      // transactions
+      lastMonthBalance
+      , nextMonthBalance
+
+      // balances
+      , lastMonth
+      , nextMonth
+
+      // credit vs debit balances
+      , lastMonthCreditBalance
+      , lastMonthDebitBalance
+
+      , nextMonthCreditBalance
+      , nextMonthDebitBalance
+
+    } = this.props.transactionsStore
 
     const last_series = [{
       name: 'Credit',
