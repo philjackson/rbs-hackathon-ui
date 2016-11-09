@@ -14,10 +14,11 @@ class BalanceWidget extends React.Component {
 
     const series = [{
       name: 'Spent',
-      color: 'rgba(55,0,0,.5)',
+      color: '#FF8300',
       data: [balanceStore.spent]
     }, {
       name: 'Balance',
+      color: '#009FE3',
       data: [balanceStore.balance]
     }]
 
