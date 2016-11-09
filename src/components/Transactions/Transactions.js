@@ -9,10 +9,18 @@ const money = (v, abs = false) => '£' + numeral(abs ? Math.abs(v) : v).format('
 @observer
 export default class Transactions extends React.Component {
   render(){
-    const {lastMonth, nextMonth, accountBalance} = this.props.store
+
+    const {
+      lastMonth
+    , nextMonth
+    , accountBalance
+    , nextMonthDebitBalance
+    , lastMonthDebitBalance
+    } = this.props.store
+
     return <div className="transactions-container">
       <h2 className="main-title">Next Month</h2>
-      <h3 className="subtitle">To be spent: {money(nextMonth.reduce(toTotal, 0))}</h3>
+      <h3 className="subtitle">Predicted spend: {money(nextMonthDebitBalance)}</h3>
       <table className="table is-narrow">
         <thead>
         <tr>
@@ -38,7 +46,7 @@ export default class Transactions extends React.Component {
         </tbody>
       </table>
       <h2 className="main-title">Last Month</h2>
-      <h3 className="subtitle">Already spent: {money(lastMonth.reduce(toTotal, 0))}</h3>
+      <h3 className="subtitle">You spent: {money( lastMonthDebitBalance )}</h3>
       <table className="table is-narrow">
         <thead>
         <tr>
