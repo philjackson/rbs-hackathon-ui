@@ -2,6 +2,10 @@ import React        from 'react';
 import { observer}  from 'mobx-react';
 import UsageChart   from './UsageChart'
 
+function numberWithCommas(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 @observer
 class BalanceWidget extends React.Component {
 
@@ -18,16 +22,16 @@ class BalanceWidget extends React.Component {
     }]
 
     return <div>
-      <div className="tabs">
+      <div className="tabs balances">
         <ul>
           <li>
-            <a>Remains: £{balanceStore.balance}</a>
+            <a>remaining: <span className="amount">£{numberWithCommas(balanceStore.balance)}</span></a>
           </li>
           <li>
-            <a>Out: £{balanceStore.spent}</a>
+            <a>out: <span className="amount">£{numberWithCommas(balanceStore.spent)}</span></a>
           </li>
           <li>
-            <a>In: £{balanceStore.paid}</a>
+            <a>in: <span className="amount">£{numberWithCommas(balanceStore.paid)}</span></a>
           </li>
 
         </ul>
